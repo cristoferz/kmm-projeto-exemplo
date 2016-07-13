@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-75,0,0,3,16"/>
+  </AuxValues>
+
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanelPrincipal">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder/>
+          </Border>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="North"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jExtLabelColmeiaId" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelDescricao" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelTipo" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelProducaoMinima" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelMunicipio" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jExtTextFieldDescricao" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jSearchFieldCodIbge" min="-2" pref="148" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jExtTextFieldMunicipio" min="-2" pref="422" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jExtTextFieldMunicipioUf" pref="52" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jExtNumberFieldProducaoMinima" min="-2" pref="89" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jExtLabelProducaoMinimaUnidade" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jExtComboBoxTipo" min="-2" max="-2" attributes="0"/>
+                              <Component id="jExtTextFieldColmeiaId" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jExtLabelColmeiaId" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtTextFieldColmeiaId" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jExtTextFieldDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jExtLabelTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtComboBoxTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jExtNumberFieldProducaoMinima" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelProducaoMinima" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelProducaoMinimaUnidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jSearchFieldCodIbge" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtTextFieldMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtTextFieldMunicipioUf" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelColmeiaId">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="ID colm&#xe9;ia:"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldColmeiaId">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelDescricao">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o:"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldDescricao">
+        </Component>
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelTipo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tipo:"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.combobox.JExtComboBox" name="jExtComboBoxTipo">
+        </Component>
+        <Component class="kmm.componentes.controle.numberfield.JExtNumberField" name="jExtNumberFieldProducaoMinima">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jExtNumberField1"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.searchfield.JSearchField" name="jSearchFieldCodIbge">
+        </Component>
+        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldMunicipio">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelProducaoMinima">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Produ&#xe7;&#xe3;o m&#xed;nima:"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelMunicipio">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Munic&#xed;pio:"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelProducaoMinimaUnidade">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="ml/dia"/>
+          </Properties>
+        </Component>
+        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldMunicipioUf">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Abelhas:"/>
+          </Border>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="Center"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+      <SubComponents>
+        <Component class="kmm.componentes.controle.datasetcontrol.JDataSetControl" name="jDataSetControlAbelhas">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="First"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="kmm.componentes.jgrid.JGrid" name="jGridAbelhas">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="Center"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
