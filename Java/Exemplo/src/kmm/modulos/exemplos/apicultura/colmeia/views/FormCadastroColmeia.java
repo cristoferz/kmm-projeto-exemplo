@@ -2,6 +2,7 @@ package kmm.modulos.exemplos.apicultura.colmeia.views;
 
 import kmm.componentes.container.BaseContainer;
 import kmm.componentes.controle.searchfield.SearchFieldConfig;
+import kmm.componentes.windows.WindowController;
 import kmm.lib.collection.ParameterList;
 import kmm.lib.collection.ParameterMap;
 import kmm.lib.collection.WindowParameters;
@@ -13,6 +14,7 @@ import kmm.lib.database.controls.KMMDataSetAbstract;
 import kmm.lib.database.controls.KMMDataSetRow;
 import kmm.lib.database.controls.KMMDatasetParameterMap;
 import kmm.lib.database.controls.ParameterListRefresher;
+import kmm.modulos.exemplos.apicultura.colmeia.lists.FormListaColmeia;
 import kmm.padroes.cadastro.CadastroPadrao;
 import kmm.padroes.localizar.LocalizarFilter;
 import kmm.padroes.localizar.LocalizarFilters;
@@ -128,7 +130,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
 
    @Override
    protected void onLista() throws Exception {
-      //WindowController.openWindow(new FormCadastroColmeiaLista(getManager(), this), WindowController.NEW_FRAME);
+      WindowController.openWindow(new FormListaColmeia(getManager(), this), WindowController.NEW_FRAME);
    }
 
    private void configTela() throws Exception {
