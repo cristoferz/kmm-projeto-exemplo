@@ -48,22 +48,22 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jExtLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelProducaoIndividual" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelModalidade" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelNome" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelNumAbelha" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jExtTextField1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jExtTextFieldNome" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jExtComboBox1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jExtNumberField2" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
+                              <Component id="jExtComboBoxModalidade" min="-2" max="-2" attributes="0"/>
+                              <Component id="jExtNumberFieldNumAbelha" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jExtNumberField1" min="-2" pref="89" max="-2" attributes="0"/>
+                                  <Component id="jExtNumberFieldProducaoIndividual" min="-2" pref="89" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jExtLabel5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jExtLabelProducaoIndividualUnidade" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="0" pref="274" max="32767" attributes="0"/>
@@ -78,24 +78,24 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jExtLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtNumberField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelNumAbelha" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtNumberFieldNumAbelha" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jExtLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtTextFieldNome" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jExtLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtNumberField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelProducaoIndividual" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtNumberFieldProducaoIndividual" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelProducaoIndividualUnidade" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jExtLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelModalidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtComboBoxModalidade" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
@@ -103,44 +103,41 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabel1">
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelNumAbelha">
           <Properties>
             <Property name="text" type="java.lang.String" value="N&#xfa;mero:"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabel2">
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelNome">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nome:"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabel3">
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelProducaoIndividual">
           <Properties>
             <Property name="text" type="java.lang.String" value="Produ&#xe7;&#xe3;o individual:"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabel4">
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelModalidade">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modalidade:"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.numberfield.JExtNumberField" name="jExtNumberField1">
+        <Component class="kmm.componentes.controle.numberfield.JExtNumberField" name="jExtNumberFieldProducaoIndividual">
           <Properties>
             <Property name="text" type="java.lang.String" value="jExtNumberField1"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.combobox.JExtComboBox" name="jExtComboBox1">
+        <Component class="kmm.componentes.controle.combobox.JExtComboBox" name="jExtComboBoxModalidade">
         </Component>
-        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextField1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jExtTextField1"/>
-          </Properties>
+        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldNome">
         </Component>
-        <Component class="kmm.componentes.controle.numberfield.JExtNumberField" name="jExtNumberField2">
+        <Component class="kmm.componentes.controle.numberfield.JExtNumberField" name="jExtNumberFieldNumAbelha">
           <Properties>
             <Property name="text" type="java.lang.String" value="jExtNumberField2"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabel5">
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelProducaoIndividualUnidade">
           <Properties>
             <Property name="text" type="java.lang.String" value="ml/dia"/>
           </Properties>

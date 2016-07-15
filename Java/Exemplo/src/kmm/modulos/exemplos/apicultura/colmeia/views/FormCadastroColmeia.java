@@ -10,6 +10,7 @@ import kmm.lib.database.columns.ColumnInteger;
 import kmm.lib.database.columns.ColumnString;
 import kmm.lib.database.columns.KMMColumnModel;
 import kmm.lib.database.controls.KMMDataSetAbstract;
+import kmm.lib.database.controls.KMMDataSetRow;
 import kmm.lib.database.controls.KMMDatasetParameterMap;
 import kmm.lib.database.controls.ParameterListRefresher;
 import kmm.padroes.cadastro.CadastroPadrao;
@@ -22,8 +23,10 @@ import kmm.padroes.localizar.LocalizarPadrao;
  * @author cristofer
  */
 public class FormCadastroColmeia extends CadastroPadrao {
-   
+
    private KMMDatasetParameterMap datasetAbelhas, datasetEspecie;
+
+   private FormCadastroColmeiaAbelha formCadastroColmeiaAbelha;
 
    public FormCadastroColmeia(KMMConnectionManager manager, WindowParameters parameters) throws Exception {
       super(manager, parameters);
@@ -31,9 +34,9 @@ public class FormCadastroColmeia extends CadastroPadrao {
       configTela();
 
    }
-   
+
    public static BaseContainer createFormCadastroColmeia(KMMConnectionManager manager, WindowParameters parameters) throws Exception {
-      return new FormCadastroColmeia(manager, parameters); 
+      return new FormCadastroColmeia(manager, parameters);
    }
 
    @Override
@@ -41,10 +44,9 @@ public class FormCadastroColmeia extends CadastroPadrao {
       return "Exemplo - Cadastro de Colméia";
    }
 
-
    @Override
    public String[] getLocalizarFieldList() {
-      return new String[]{ "colmeia_id" };
+      return new String[]{"colmeia_id"};
    }
 
    @Override
@@ -56,9 +58,17 @@ public class FormCadastroColmeia extends CadastroPadrao {
    public String getCodModule() {
       return "EXEMPLO";
    }
-   
-   
-   
+
+   @Override
+   protected ParameterMap rowToParameterMap(KMMDataSetRow row) throws Exception {
+      ParameterMap arguments = super.rowToParameterMap(row);
+      // Removendo campos desnecessários
+      arguments.remove("cod_ibge");
+      arguments.remove("municipio");
+      arguments.remove("uf");
+      return arguments;
+   }
+
    @Override
    protected KMMDataSetAbstract createDataset() {
       return new KMMDatasetParameterMap(new KMMColumnModel(
@@ -75,6 +85,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
          @Override
          public ParameterList refresh(ParameterMap parameters) throws Exception {
             if (parameters.hasValue("colmeia_id")) {
+               parameters.put("retornar_abelhas", true);
                ParameterMap result = backendCall(getCodModule(), "getColmeia", parameters);
                if (result.hasValue("colmeias")) {
                   return result.getParameterList("colmeias");
@@ -106,12 +117,12 @@ public class FormCadastroColmeia extends CadastroPadrao {
             } else {
                throw new Exception("Não foi encontrada a variavel \"colmeias\" no retorno");
             }
-            
+
          }
       }), new LocalizarFilters(
-              new LocalizarFilter("num_colmeia", "Número", LocalizarFilter.NUMBER),
-              new LocalizarFilter("descricao", "Descrição", LocalizarFilter.STRING),
-              new LocalizarFilter("municipio", "Município", LocalizarFilter.STRING)
+              new LocalizarFilter("Número", "num_colmeia", LocalizarFilter.NUMBER),
+              new LocalizarFilter("Descrição", "descricao", LocalizarFilter.STRING),
+              new LocalizarFilter("Município", "municipio", LocalizarFilter.STRING)
       ), new ParameterMap(), this);
    }
 
@@ -126,7 +137,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
    }
 
    private void preencheComboBox() throws Exception {
-   
+
    }
 
    private void configDataset() throws Exception {
@@ -135,20 +146,25 @@ public class FormCadastroColmeia extends CadastroPadrao {
       setUpdateFunction("updColmeia");
       setDeleteFunction("delColmeia");
 
+      getDataset().setRequiredFields(new String[]{
+         "num_colmeia", "descricao", "tipo", "municipio_id", "cod_ibge"
+      });
+
       // Vinculando campos ao dataset
-      jExtTextFieldColmeiaId.setDataSet(getDataset(), "num_colmeia");
+      jExtTextFieldNumColmeia.setDataSet(getDataset(), "num_colmeia");
       jExtTextFieldDescricao.setDataSet(getDataset(), "descricao");
       jExtComboBoxTipo.setDataset(getDataset(), "tipo");
       jExtNumberFieldProducaoMinima.setDataSet(getDataset(), "producao_minima");
       jSearchFieldCodIbge.setDataSet(getDataset(), "cod_ibge");
       jExtTextFieldMunicipio.setDataSet(getDataset(), "municipio");
       jExtTextFieldMunicipioUf.setDataSet(getDataset(), "uf");
-      
+
       datasetEspecie = new KMMDatasetParameterMap(new KMMColumnModel(
-              new ColumnString("especie", "especie", false, true)
+              new ColumnString("cod_especie", "Cód. especie", false, true),
+              new ColumnString("descricao", "Descrição", false, true)
       ));
-      jExtComboBoxTipo.setListDataset(datasetEspecie, "especie", "especie");
-      
+      jExtComboBoxTipo.setListDataset(datasetEspecie, "cod_especie", "descricao");
+
       // Configurando o searchField
       ParameterListRefresher refresher = new ParameterListRefresher() {
          @Override
@@ -161,7 +177,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
             }
          }
       };
-      
+
       SearchFieldConfig searchFieldConfig = new SearchFieldConfig();
       searchFieldConfig.setBaseContainer(this);
       searchFieldConfig.setLocalizarPadrao(new LocalizarPadrao(this, "Localizar município", new KMMDatasetParameterMap(new KMMColumnModel(
@@ -170,14 +186,14 @@ public class FormCadastroColmeia extends CadastroPadrao {
               new ColumnString("municipio", "Município", false, true),
               new ColumnString("uf", "UF", false, true)
       ), refresher), new LocalizarFilters(
-              new LocalizarFilter("municipio", "Município", LocalizarFilter.STRING),
-              new LocalizarFilter("cod_ibge", "Cód. IBGE", LocalizarFilter.STRING)
+              new LocalizarFilter("Município", "municipio", LocalizarFilter.STRING),
+              new LocalizarFilter("Cód. IBGE", "cod_ibge", LocalizarFilter.STRING)
       )));
       searchFieldConfig.setFocusLostFieldName("cod_ibge");
       searchFieldConfig.setRefresher(refresher);
-      searchFieldConfig.setMapping(new String[] { "cod_ibge", "cod_ibge", "municipio", "municipio", "municipio_id", "municipio_id", "uf", "uf" });
+      searchFieldConfig.setMapping(new String[]{"cod_ibge", "cod_ibge", "municipio", "municipio", "municipio_id", "municipio_id", "uf", "uf"});
       jSearchFieldCodIbge.configSearchField(searchFieldConfig);
-      
+
       // Criando o datasetFilho
       datasetAbelhas = new KMMDatasetParameterMap(new KMMColumnModel(
               new ColumnInteger("abelha_id", "ID abelha", true, true),
@@ -190,9 +206,28 @@ public class FormCadastroColmeia extends CadastroPadrao {
       jGridAbelhas.setDataSet(datasetAbelhas);
       jDataSetControlAbelhas.setMasterDataSet(getDataset(), "abelhas");
       jDataSetControlAbelhas.setDataset(datasetAbelhas);
-      
+      jGridAbelhas.applyColumnBestFit();
+
+      // Criando o Cadastro Filho
+      formCadastroColmeiaAbelha = new FormCadastroColmeiaAbelha(getManager(), datasetAbelhas);
+      formCadastroColmeiaAbelha.setDatasetControl(jDataSetControlAbelhas);
+      formCadastroColmeiaAbelha.setGrid(jGridAbelhas);
+
+      initData();
+   }
+
+   private void initData() throws Exception {
       // Carregando dados iniciais
-      
+      ParameterMap args = new ParameterMap();
+      args.put("retornar_especies", true);
+      args.put("retornar_modalidades", true);
+      ParameterMap dadosIniciais = backendCall(getCodModule(), "initColmeia", args);
+      if (dadosIniciais.hasValue("especies")) {
+         datasetEspecie.loadData(dadosIniciais.getParameterList("especies"));
+      }
+
+      // Carregando dados da tela de cadastro filho
+      formCadastroColmeiaAbelha.load(dadosIniciais);
    }
 
    /**
@@ -205,8 +240,8 @@ public class FormCadastroColmeia extends CadastroPadrao {
    private void initComponents() {
 
       jPanelPrincipal = new javax.swing.JPanel();
-      jExtLabelColmeiaId = new kmm.componentes.controle.label.JExtLabel();
-      jExtTextFieldColmeiaId = new kmm.componentes.controle.textfield.JExtTextField();
+      jExtLabelNumColmeia = new kmm.componentes.controle.label.JExtLabel();
+      jExtTextFieldNumColmeia = new kmm.componentes.controle.textfield.JExtTextField();
       jExtLabelDescricao = new kmm.componentes.controle.label.JExtLabel();
       jExtTextFieldDescricao = new kmm.componentes.controle.textfield.JExtTextField();
       jExtLabelTipo = new kmm.componentes.controle.label.JExtLabel();
@@ -226,9 +261,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
 
       jPanelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-      jExtLabelColmeiaId.setText("ID colméia:");
-
-      jExtTextFieldColmeiaId.setEditable(false);
+      jExtLabelNumColmeia.setText("Número:");
 
       jExtLabelDescricao.setText("Descrição:");
 
@@ -253,7 +286,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
          .addGroup(jPanelPrincipalLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jExtLabelColmeiaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtLabelNumColmeia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jExtLabelDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jExtLabelTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jExtLabelProducaoMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,20 +295,20 @@ public class FormCadastroColmeia extends CadastroPadrao {
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(jExtTextFieldDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                  .addComponent(jSearchFieldCodIbge, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jExtTextFieldMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jExtTextFieldMunicipioUf, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
-               .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                   .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                      .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                         .addComponent(jExtNumberFieldProducaoMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jExtLabelProducaoMinimaUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addComponent(jExtComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(jExtTextFieldColmeiaId, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                  .addGap(0, 0, Short.MAX_VALUE)))
+                     .addComponent(jExtTextFieldNumColmeia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                  .addGap(0, 0, Short.MAX_VALUE))
+               .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                  .addComponent(jSearchFieldCodIbge, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(jExtTextFieldMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(jExtTextFieldMunicipioUf, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
       );
       jPanelPrincipalLayout.setVerticalGroup(
@@ -283,8 +316,8 @@ public class FormCadastroColmeia extends CadastroPadrao {
          .addGroup(jPanelPrincipalLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jExtLabelColmeiaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtTextFieldColmeiaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(jExtLabelNumColmeia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtTextFieldNumColmeia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jExtTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,17 +352,17 @@ public class FormCadastroColmeia extends CadastroPadrao {
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private kmm.componentes.controle.datasetcontrol.JDataSetControl jDataSetControlAbelhas;
    private kmm.componentes.controle.combobox.JExtComboBox jExtComboBoxTipo;
-   private kmm.componentes.controle.label.JExtLabel jExtLabelColmeiaId;
    private kmm.componentes.controle.label.JExtLabel jExtLabelDescricao;
    private kmm.componentes.controle.label.JExtLabel jExtLabelMunicipio;
+   private kmm.componentes.controle.label.JExtLabel jExtLabelNumColmeia;
    private kmm.componentes.controle.label.JExtLabel jExtLabelProducaoMinima;
    private kmm.componentes.controle.label.JExtLabel jExtLabelProducaoMinimaUnidade;
    private kmm.componentes.controle.label.JExtLabel jExtLabelTipo;
    private kmm.componentes.controle.numberfield.JExtNumberField jExtNumberFieldProducaoMinima;
-   private kmm.componentes.controle.textfield.JExtTextField jExtTextFieldColmeiaId;
    private kmm.componentes.controle.textfield.JExtTextField jExtTextFieldDescricao;
    private kmm.componentes.controle.textfield.JExtTextField jExtTextFieldMunicipio;
    private kmm.componentes.controle.textfield.JExtTextField jExtTextFieldMunicipioUf;
+   private kmm.componentes.controle.textfield.JExtTextField jExtTextFieldNumColmeia;
    private kmm.componentes.jgrid.JGrid jGridAbelhas;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JPanel jPanelPrincipal;

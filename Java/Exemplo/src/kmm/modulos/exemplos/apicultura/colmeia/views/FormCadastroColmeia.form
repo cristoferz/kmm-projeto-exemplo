@@ -36,7 +36,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jExtLabelColmeiaId" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelNumColmeia" min="-2" max="-2" attributes="0"/>
                       <Component id="jExtLabelDescricao" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jExtLabelTipo" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jExtLabelProducaoMinima" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -46,13 +46,6 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jExtTextFieldDescricao" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="jSearchFieldCodIbge" min="-2" pref="148" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jExtTextFieldMunicipio" min="-2" pref="422" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jExtTextFieldMunicipioUf" pref="52" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jExtNumberFieldProducaoMinima" min="-2" pref="89" max="-2" attributes="0"/>
@@ -60,9 +53,16 @@
                                   <Component id="jExtLabelProducaoMinimaUnidade" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jExtComboBoxTipo" min="-2" max="-2" attributes="0"/>
-                              <Component id="jExtTextFieldColmeiaId" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jExtTextFieldNumColmeia" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jSearchFieldCodIbge" min="-2" pref="148" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jExtTextFieldMunicipio" pref="429" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jExtTextFieldMunicipioUf" min="-2" pref="45" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -74,8 +74,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jExtLabelColmeiaId" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jExtTextFieldColmeiaId" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtLabelNumColmeia" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jExtTextFieldNumColmeia" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -106,15 +106,12 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelColmeiaId">
+        <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelNumColmeia">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ID colm&#xe9;ia:"/>
+            <Property name="text" type="java.lang.String" value="N&#xfa;mero:"/>
           </Properties>
         </Component>
-        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldColmeiaId">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-          </Properties>
+        <Component class="kmm.componentes.controle.textfield.JExtTextField" name="jExtTextFieldNumColmeia">
         </Component>
         <Component class="kmm.componentes.controle.label.JExtLabel" name="jExtLabelDescricao">
           <Properties>

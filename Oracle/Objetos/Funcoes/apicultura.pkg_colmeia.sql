@@ -29,7 +29,6 @@ procedure prc_ins_abelha
  ,p_nome                in apicultura.v$abelha.nome%type
  ,p_producao_individual in apicultura.v$abelha.producao_individual%type
  ,p_modalidade          in apicultura.v$abelha.modalidade%type
- ,p_tipo                in apicultura.v$abelha.tipo%type
  ,p_data_admissao       in apicultura.v$abelha.data_admissao%type
   );
 
@@ -40,7 +39,6 @@ procedure prc_alt_abelha
  ,p_nome                in apicultura.v$abelha.nome%type
  ,p_producao_individual in apicultura.v$abelha.producao_individual%type
  ,p_modalidade          in apicultura.v$abelha.modalidade%type
- ,p_tipo                in apicultura.v$abelha.tipo%type
  ,p_data_admissao       in apicultura.v$abelha.data_admissao%type
  );
 
@@ -118,15 +116,14 @@ procedure prc_ins_abelha
  ,p_nome                in apicultura.v$abelha.nome%type
  ,p_producao_individual in apicultura.v$abelha.producao_individual%type
  ,p_modalidade          in apicultura.v$abelha.modalidade%type
- ,p_tipo                in apicultura.v$abelha.tipo%type
  ,p_data_admissao       in apicultura.v$abelha.data_admissao%type
   ) is 
 begin
    insert into apicultura.v$abelha (
           colmeia_id, num_abelha, nome, producao_individual
-        , modalidade, tipo, data_admissao)
+        , modalidade, data_admissao)
    values (p_colmeia_id, p_num_abelha, p_nome, p_producao_individual
-        , p_modalidade, p_tipo, p_data_admissao)
+        , p_modalidade, p_data_admissao)
    returning abelha_id into p_abelha_id;
 exception
    when kss.pkg_mensagem.kmm_check_constraint_msg or
@@ -143,7 +140,6 @@ procedure prc_alt_abelha
  ,p_nome                in apicultura.v$abelha.nome%type
  ,p_producao_individual in apicultura.v$abelha.producao_individual%type
  ,p_modalidade          in apicultura.v$abelha.modalidade%type
- ,p_tipo                in apicultura.v$abelha.tipo%type
  ,p_data_admissao       in apicultura.v$abelha.data_admissao%type
  ) is 
 begin
@@ -153,7 +149,6 @@ begin
         , a.nome                = p_nome
         , a.producao_individual = p_producao_individual
         , a.modalidade          = p_modalidade
-        , a.tipo                = p_tipo
         , a.data_admissao       = p_data_admissao
     where a.abelha_id = p_abelha_id;
 exception

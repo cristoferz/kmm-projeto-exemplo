@@ -4,6 +4,14 @@ create or replace package apicultura.pkg_colmeia_backend is
   -- Created : 7/11/2016 3:47:18 PM
   -- Purpose : 
 
+function fnc_get_especie
+(p_parameters in  xmltype
+) return xmltype;
+
+function fnc_get_modalidade
+(p_parameters in  xmltype
+) return xmltype;
+
 function fnc_get_abelha
 (p_parameters in  xmltype
 ) return xmltype;
@@ -17,6 +25,74 @@ procedure prc_module_gateway
 end pkg_colmeia_backend;
 /
 create or replace package body apicultura.pkg_colmeia_backend is
+
+function fnc_get_especie
+(p_parameters in  xmltype
+) return xmltype as
+v_result xmltype;
+begin
+   select xmlelement("especies",
+             xmlattributes('array' as "type"),
+             xmlagg(
+                xmlelement("arrayItem",
+                   xmlattributes('object' as "type"),
+                   jsonelement('cod_especie', 'string', cg.rv_low_value),
+                   jsonelement('descricao', 'string', cg.rv_abbreviation)
+                )
+             )
+          )
+     into v_result
+     from kss.cg_ref_codes cg
+    where owner = 'APICULTURA'
+      and rv_domain = 'COLMEIA.ESPECIE';
+   
+  return v_result;
+end;
+
+function fnc_get_modalidade
+(p_parameters in  xmltype
+) return xmltype as
+v_result xmltype;
+begin
+   select xmlelement("modalidades",
+             xmlattributes('array' as "type"),
+             xmlagg(
+                xmlelement("arrayItem",
+                   xmlattributes('object' as "type"),
+                   jsonelement('cod_modalidade', 'string', cg.rv_low_value),
+                   jsonelement('descricao', 'string', cg.rv_abbreviation)
+                )
+             )
+          )
+     into v_result
+     from kss.cg_ref_codes cg
+    where owner = 'APICULTURA'
+      and rv_domain = 'ABELHA.MODALIDADE';
+   
+  return v_result;
+end;
+
+procedure prc_init_colmeia
+(p_parameters in xmltype
+,p_result     out xmltype
+) as
+begin
+   for i in (
+      select *
+        from xmltable('/params' passing p_parameters
+                columns
+                   retornar_especies varchar2(10) path '/params/retornar_especies',
+                   retornar_modalidades varchar2(10) path '/params/retornar_modalidades'
+             )
+   ) loop
+      select xmlconcat(
+                case when i.retornar_especies = 'true' then fnc_get_especie(null) else null end,
+                case when i.retornar_modalidades = 'true' then fnc_get_modalidade(null) else null end
+             )
+        into p_result
+        from dual;
+   end loop;
+end;
 
 function fnc_get_municipio
 (p_parameters in  xmltype
@@ -114,7 +190,7 @@ begin
                where 1=1');
       if trim(i.colmeia_id) is not null then
          dbms_lob.append(v_sql, '
-                 and colmeia_id = i.colmeia_id');
+                 and colmeia_id = '||i.colmeia_id);
       end if;
       dbms_lob.append(v_sql, '
                order by a.num_abelha) a');
@@ -161,7 +237,9 @@ begin
                          jsonelement(''tipo'', ''string'', c.tipo),
                          jsonelement(''producao_minima'', ''number'', c.producao_minima),
                          jsonelement(''municipio_id'', ''number'', c.municipio_id),
-                         jsonelement(''municipio'', ''string'', c.municipio)');
+                         jsonelement(''cod_ibge'', ''string'', c.cod_ibge),
+                         jsonelement(''municipio'', ''string'', c.municipio),
+                         jsonelement(''uf'', ''string'', c.uf_id)');
       if i.retornar_abelhas = 'true' then
          dbms_lob.append(v_sql, ', 
                          apicultura.pkg_colmeia_backend.fnc_get_abelha(
@@ -181,7 +259,9 @@ begin
                       , c.tipo
                       , c.producao_minima
                       , c.municipio_id
+                      , m.cod_ibge
                       , m.municipio
+                      , m.uf_id
                    from apicultura.v$colmeia c
                   inner join cep.v$municipio m
                      on m.municipio_id = c.municipio_id
@@ -225,7 +305,6 @@ procedure prc_ins_colmeia
 ,p_result     out xmltype
 ) as
 v_colmeia_id      apicultura.colmeia.colmeia_id%type;
-v_abelhas_result  xmltype;
 begin
    for i in (
       select *
@@ -255,7 +334,6 @@ begin
                     , nome          varchar2(60) path '/arrayItem/nome'
                     , producao_individual integer path '/arrayItem/producao_individual'
                     , modalidade    varchar2(60) path '/arrayItem/modalidade'
-                    , tipo          varchar2(60) path '/arrayItem/tipo'
                     , data_admissao varchar2(60) path '/arrayItem/data_admissao'
                 )
       ) loop
@@ -268,19 +346,9 @@ begin
                                                  ,p_nome                 => j.nome
                                                  ,p_producao_individual  => j.producao_individual
                                                  ,p_modalidade           => j.modalidade
-                                                 ,p_tipo                 => j.tipo
                                                  ,p_data_admissao        => j.data_admissao
                                                  );
-            
-            select xmlconcat(
-                      v_abelhas_result,
-                      xmlelement("arrayItem",
-                         xmlattributes('object' as "type"),
-                         jsonelement('abelha_id', 'number', v_abelha_id)
-                      )
-                   )
-              into v_abelhas_result
-              from dual;
+
          end;
       end loop;
       
@@ -328,13 +396,12 @@ begin
          select *
            from xmltable('/abelhas/arrayItem' passing i.abelhas
                    columns
-                      operation     integer path '/arrayItem/operation'
+                      operation     varchar2(10) path '/arrayItem/operation'
                     , abelha_id     integer path '/arrayItem/abelha_id'
                     , num_abelha    integer path '/arrayItem/num_abelha'
                     , nome          varchar2(60) path '/arrayItem/nome'
                     , producao_individual integer path '/arrayItem/producao_individual'
                     , modalidade    varchar2(60) path '/arrayItem/modalidade'
-                    , tipo          varchar2(60) path '/arrayItem/tipo'
                     , data_admissao varchar2(60) path '/arrayItem/data_admissao'
                 )
       ) loop
@@ -349,7 +416,6 @@ begin
                                                        ,p_nome                 => j.nome
                                                        ,p_producao_individual  => j.producao_individual
                                                        ,p_modalidade           => j.modalidade
-                                                       ,p_tipo                 => j.tipo
                                                        ,p_data_admissao        => j.data_admissao
                                                        );
                when 'UPDATE' then
@@ -359,7 +425,6 @@ begin
                                                        ,p_nome                 => j.nome
                                                        ,p_producao_individual  => j.producao_individual
                                                        ,p_modalidade           => j.modalidade
-                                                       ,p_tipo                 => j.tipo
                                                        ,p_data_admissao        => j.data_admissao
                                                        );
                when 'DELETE' then
@@ -420,6 +485,10 @@ begin
          p_result := fnc_get_colmeia(p_parameters => p_parameters);
       when 'getAbelha' then
          p_result := fnc_get_abelha(p_parameters => p_parameters);
+      when 'initColmeia' then
+         prc_init_colmeia(p_parameters => p_parameters
+                         ,p_result     => p_result
+                         );
       when 'insColmeia' then
          prc_ins_colmeia(p_parameters => p_parameters
                         ,p_result     => p_result

@@ -1,8 +1,11 @@
 package kmm.modulos.exemplos.apicultura.colmeia.views;
 
-import java.awt.Dimension;
-import kmm.lib.connection.KMMConnection;
+import kmm.lib.collection.ParameterMap;
+import kmm.lib.connection.KMMConnectionManager;
+import kmm.lib.database.columns.ColumnString;
+import kmm.lib.database.columns.KMMColumnModel;
 import kmm.lib.database.controls.KMMDataSetAbstract;
+import kmm.lib.database.controls.KMMDatasetParameterMap;
 import kmm.padroes.cadastro.filho.CadastroFilhoPadrao;
 
 /**
@@ -10,19 +13,24 @@ import kmm.padroes.cadastro.filho.CadastroFilhoPadrao;
  * @author cristofer
  */
 public class FormCadastroColmeiaAbelha extends CadastroFilhoPadrao {
+   
+   private KMMDatasetParameterMap datasetModalidades;
 
-   public FormCadastroColmeiaAbelha(KMMConnection connection, KMMDataSetAbstract dataset) throws Exception {
-      super(connection);
+   public FormCadastroColmeiaAbelha(KMMConnectionManager manager, KMMDataSetAbstract dataset) throws Exception {
+      super(manager);
       initComponents();
       setDataset(dataset);
-      preencheComboBox();
-      configDataset();
       configTela();
    }
 
    @Override
    public String getTitle() {
-      return "";
+      return "Apicultura - Cadastro de abelhas da colméia";
+   }
+
+   private void configTela() throws Exception {
+      preencheComboBox();
+      configDataset();
    }
    
    private void preencheComboBox() throws Exception {
@@ -30,13 +38,26 @@ public class FormCadastroColmeiaAbelha extends CadastroFilhoPadrao {
    }
    
    private void configDataset() throws Exception {
+      jExtNumberFieldNumAbelha.setDataSet(getDataset(), "num_abelha");
+      jExtTextFieldNome.setDataSet(getDataset(), "nome");
+      jExtNumberFieldProducaoIndividual.setDataSet(getDataset(), "producao_individual");
+      jExtComboBoxModalidade.setDataset(getDataset(), "modalidade");
       
+      datasetModalidades = new KMMDatasetParameterMap(new KMMColumnModel(
+              new ColumnString("cod_modalidade", "Cód. modalidade", false, true),
+              new ColumnString("descricao", "Descrição", false, true)
+      ));
+      jExtComboBoxModalidade.setListDataset(datasetModalidades, "cod_modalidade", "descricao");
    }
 
-   private void configTela(){
-      setPreferredSize(new Dimension(1024, 768));
-      setMinimumSize(new Dimension(1024, 768));
+   @Override
+   public void load(ParameterMap parameterMap) throws Exception {
+      if (parameterMap.hasValue("modalidades")) {
+         datasetModalidades.loadData(parameterMap.getParameterList("modalidades"));
+      }
    }
+   
+   
 
    /**
     * This method is called from within the constructor to initialize the form.
@@ -48,33 +69,31 @@ public class FormCadastroColmeiaAbelha extends CadastroFilhoPadrao {
    private void initComponents() {
 
       jPanelPrincipal = new javax.swing.JPanel();
-      jExtLabel1 = new kmm.componentes.controle.label.JExtLabel();
-      jExtLabel2 = new kmm.componentes.controle.label.JExtLabel();
-      jExtLabel3 = new kmm.componentes.controle.label.JExtLabel();
-      jExtLabel4 = new kmm.componentes.controle.label.JExtLabel();
-      jExtNumberField1 = new kmm.componentes.controle.numberfield.JExtNumberField();
-      jExtComboBox1 = new kmm.componentes.controle.combobox.JExtComboBox();
-      jExtTextField1 = new kmm.componentes.controle.textfield.JExtTextField();
-      jExtNumberField2 = new kmm.componentes.controle.numberfield.JExtNumberField();
-      jExtLabel5 = new kmm.componentes.controle.label.JExtLabel();
+      jExtLabelNumAbelha = new kmm.componentes.controle.label.JExtLabel();
+      jExtLabelNome = new kmm.componentes.controle.label.JExtLabel();
+      jExtLabelProducaoIndividual = new kmm.componentes.controle.label.JExtLabel();
+      jExtLabelModalidade = new kmm.componentes.controle.label.JExtLabel();
+      jExtNumberFieldProducaoIndividual = new kmm.componentes.controle.numberfield.JExtNumberField();
+      jExtComboBoxModalidade = new kmm.componentes.controle.combobox.JExtComboBox();
+      jExtTextFieldNome = new kmm.componentes.controle.textfield.JExtTextField();
+      jExtNumberFieldNumAbelha = new kmm.componentes.controle.numberfield.JExtNumberField();
+      jExtLabelProducaoIndividualUnidade = new kmm.componentes.controle.label.JExtLabel();
 
       jPanelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-      jExtLabel1.setText("Número:");
+      jExtLabelNumAbelha.setText("Número:");
 
-      jExtLabel2.setText("Nome:");
+      jExtLabelNome.setText("Nome:");
 
-      jExtLabel3.setText("Produção individual:");
+      jExtLabelProducaoIndividual.setText("Produção individual:");
 
-      jExtLabel4.setText("Modalidade:");
+      jExtLabelModalidade.setText("Modalidade:");
 
-      jExtNumberField1.setText("jExtNumberField1");
+      jExtNumberFieldProducaoIndividual.setText("jExtNumberField1");
 
-      jExtTextField1.setText("jExtTextField1");
+      jExtNumberFieldNumAbelha.setText("jExtNumberField2");
 
-      jExtNumberField2.setText("jExtNumberField2");
-
-      jExtLabel5.setText("ml/dia");
+      jExtLabelProducaoIndividualUnidade.setText("ml/dia");
 
       javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
       jPanelPrincipal.setLayout(jPanelPrincipalLayout);
@@ -83,21 +102,21 @@ public class FormCadastroColmeiaAbelha extends CadastroFilhoPadrao {
          .addGroup(jPanelPrincipalLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jExtLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(jExtLabelProducaoIndividual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtLabelModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtLabelNumAbelha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jExtTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(jExtTextFieldNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                   .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jExtComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(jExtNumberField2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jExtComboBoxModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jExtNumberFieldNumAbelha, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                      .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addComponent(jExtNumberField1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jExtNumberFieldProducaoIndividual, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jExtLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jExtLabelProducaoIndividualUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                   .addGap(0, 274, Short.MAX_VALUE)))
             .addContainerGap())
       );
@@ -106,21 +125,21 @@ public class FormCadastroColmeiaAbelha extends CadastroFilhoPadrao {
          .addGroup(jPanelPrincipalLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jExtLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtNumberField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(jExtLabelNumAbelha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtNumberFieldNumAbelha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jExtLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(jExtLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jExtLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtNumberField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(jExtLabelProducaoIndividual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtNumberFieldProducaoIndividual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtLabelProducaoIndividualUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jExtLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jExtComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(jExtLabelModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jExtComboBoxModalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addContainerGap(15, Short.MAX_VALUE))
       );
 
@@ -141,15 +160,15 @@ public class FormCadastroColmeiaAbelha extends CadastroFilhoPadrao {
       );
    }// </editor-fold>//GEN-END:initComponents
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private kmm.componentes.controle.combobox.JExtComboBox jExtComboBox1;
-   private kmm.componentes.controle.label.JExtLabel jExtLabel1;
-   private kmm.componentes.controle.label.JExtLabel jExtLabel2;
-   private kmm.componentes.controle.label.JExtLabel jExtLabel3;
-   private kmm.componentes.controle.label.JExtLabel jExtLabel4;
-   private kmm.componentes.controle.label.JExtLabel jExtLabel5;
-   private kmm.componentes.controle.numberfield.JExtNumberField jExtNumberField1;
-   private kmm.componentes.controle.numberfield.JExtNumberField jExtNumberField2;
-   private kmm.componentes.controle.textfield.JExtTextField jExtTextField1;
+   private kmm.componentes.controle.combobox.JExtComboBox jExtComboBoxModalidade;
+   private kmm.componentes.controle.label.JExtLabel jExtLabelModalidade;
+   private kmm.componentes.controle.label.JExtLabel jExtLabelNome;
+   private kmm.componentes.controle.label.JExtLabel jExtLabelNumAbelha;
+   private kmm.componentes.controle.label.JExtLabel jExtLabelProducaoIndividual;
+   private kmm.componentes.controle.label.JExtLabel jExtLabelProducaoIndividualUnidade;
+   private kmm.componentes.controle.numberfield.JExtNumberField jExtNumberFieldNumAbelha;
+   private kmm.componentes.controle.numberfield.JExtNumberField jExtNumberFieldProducaoIndividual;
+   private kmm.componentes.controle.textfield.JExtTextField jExtTextFieldNome;
    private javax.swing.JPanel jPanelPrincipal;
    // End of variables declaration//GEN-END:variables
 }

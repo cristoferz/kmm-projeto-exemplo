@@ -10,7 +10,6 @@ begin
         nome            VARCHAR2(60) not null,
         producao_individual INTEGER,
         modalidade      VARCHAR2(60) not null,
-        tipo            varchar2(20) not null,
         data_admissao   date not null,
         user_insert     VARCHAR2(30) default user not null,
         date_insert     DATE default sysdate not null,

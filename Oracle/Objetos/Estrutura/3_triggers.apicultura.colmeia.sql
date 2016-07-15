@@ -6,9 +6,9 @@ CREATE OR REPLACE TRIGGER APICULTURA.TR_COL_BIR_PKC
 begin
    if (dbms_reputil.from_remote != TRUE) and
       (dbms_snapshot.i_am_a_refresh != TRUE) then
-      select sqe_col.nextval()
+      select sqe_col.nextval
         into :new.colmeia_id
-        from dualu
+        from dual;
    end if;
 end;
 /
