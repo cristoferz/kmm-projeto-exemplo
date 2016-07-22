@@ -117,7 +117,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
             if (result.hasValue("colmeias")) {
                return result.getParameterList("colmeias");
             } else {
-               throw new Exception("Não foi encontrada a variavel \"colmeias\" no retorno");
+               throw new Exception("Não foi encontrada a variavel \"colmeias\" no retorno "+result.toString(3));
             }
 
          }
@@ -125,7 +125,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
               new LocalizarFilter("Número", "num_colmeia", LocalizarFilter.NUMBER),
               new LocalizarFilter("Descrição", "descricao", LocalizarFilter.STRING),
               new LocalizarFilter("Município", "municipio", LocalizarFilter.STRING)
-      ), new ParameterMap(), this);
+      ));
    }
 
    @Override
@@ -179,7 +179,7 @@ public class FormCadastroColmeia extends CadastroPadrao {
             }
          }
       };
-
+      
       SearchFieldConfig searchFieldConfig = new SearchFieldConfig();
       searchFieldConfig.setBaseContainer(this);
       searchFieldConfig.setLocalizarPadrao(new LocalizarPadrao(this, "Localizar município", new KMMDatasetParameterMap(new KMMColumnModel(

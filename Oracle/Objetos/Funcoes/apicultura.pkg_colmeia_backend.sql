@@ -177,7 +177,8 @@ begin
                       jsonelement(''num_abelha'', ''number'', a.num_abelha),
                       jsonelement(''nome'', ''string'', a.nome),
                       jsonelement(''producao_individual'', ''number'', a.producao_individual),
-                      jsonelement(''modalidade'', ''string'', a.modalidade)
+                      jsonelement(''modalidade'', ''string'', a.modalidade),
+                      jsondate(''data_admissao'', a.data_admissao)
                    )
                 )
              )
@@ -186,6 +187,7 @@ begin
                    , a.nome
                    , a.producao_individual
                    , a.modalidade
+                   , a.data_admissao
                 from apicultura.v$abelha a
                where 1=1');
       if trim(i.colmeia_id) is not null then
@@ -346,7 +348,7 @@ begin
                                                  ,p_nome                 => j.nome
                                                  ,p_producao_individual  => j.producao_individual
                                                  ,p_modalidade           => j.modalidade
-                                                 ,p_data_admissao        => j.data_admissao
+                                                 ,p_data_admissao        => to_date(j.data_admissao, 'yyyy-mm-dd hh24:mi:ss')
                                                  );
 
          end;
@@ -416,7 +418,7 @@ begin
                                                        ,p_nome                 => j.nome
                                                        ,p_producao_individual  => j.producao_individual
                                                        ,p_modalidade           => j.modalidade
-                                                       ,p_data_admissao        => j.data_admissao
+                                                       ,p_data_admissao        => to_date(j.data_admissao, 'yyyy-mm-dd hh24:mi:ss')
                                                        );
                when 'UPDATE' then
                   apicultura.pkg_colmeia.prc_alt_abelha(p_abelha_id            => j.abelha_id
@@ -425,7 +427,7 @@ begin
                                                        ,p_nome                 => j.nome
                                                        ,p_producao_individual  => j.producao_individual
                                                        ,p_modalidade           => j.modalidade
-                                                       ,p_data_admissao        => j.data_admissao
+                                                       ,p_data_admissao        => to_date(j.data_admissao, 'yyyy-mm-dd hh24:mi:ss')
                                                        );
                when 'DELETE' then
                   apicultura.pkg_colmeia.prc_del_abelha(p_abelha_id            => j.abelha_id
@@ -454,7 +456,6 @@ procedure prc_del_colmeia
 (p_parameters in xmltype
 ,p_result     out xmltype
 ) as
-v_colmeia_id      apicultura.colmeia.colmeia_id%type;
 begin
    for i in (
       select *
@@ -463,7 +464,7 @@ begin
                    colmeia_id  integer path '/params/colmeia_id'
              )
    ) loop
-      apicultura.pkg_colmeia.prc_del_colmeia(p_colmeia_id       => v_colmeia_id
+      apicultura.pkg_colmeia.prc_del_colmeia(p_colmeia_id       => i.colmeia_id
                                             );
       
       select jsonelement('mensagem', 'string', 'Colmeia excluída com sucesso.')

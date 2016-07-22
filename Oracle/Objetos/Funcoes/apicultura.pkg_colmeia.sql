@@ -99,6 +99,14 @@ procedure prc_del_colmeia
  (p_colmeia_id in apicultura.v$colmeia.colmeia_id%type
  ) is 
 begin
+   for i in (
+      select abelha_id
+        from apicultura.v$abelha a
+       where a.colmeia_id = p_colmeia_id
+   ) loop
+      prc_del_abelha(p_abelha_id => i.abelha_id);
+   end loop;  
+
    delete apicultura.v$colmeia c
     where c.colmeia_id = p_colmeia_id;
 exception
